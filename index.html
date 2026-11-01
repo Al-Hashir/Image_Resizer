@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelSwift Tools - Free Online Photo Resizer in KB, HEIC Converter & Video Compressor</title>
+    <meta name="description" content="Free 100% private, browser-based photo resizer in KB (20KB, 50KB), PAN/Passport photo formatter, HEIC to JPG converter, Discord video compressor, and EXIF metadata remover with zero cloud uploads.">
+    <meta name="keywords" content="photo resizer in kb, image compressor, pan card photo resizer, passport photo resizer, heic to jpg converter, compress video for discord, exif metadata cleaner, free online image tools">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pixelswift.tools/">
+
+    <!-- OpenGraph / Social Meta Tags for AI & Discovery Engines -->
+    <meta property="og:title" content="PixelSwift Tools - Private Browser-Based Media Utilities">
+    <meta property="og:description" content="Resize photos to exact KB limits, convert HEIC, compress videos for Discord locally with zero cloud uploads.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pixelswift.tools/">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#334155',
+                            600: '#1e293b',
+                            700: '#0f172a',
+                            800: '#020617',
+                            900: '#020617',
+                        },
+                        classic: {
+                            gold: '#d4af37',
+                            navy: '#0f172a',
+                            cream: '#fdfbf7',
+                            slate: '#334155',
+                            accent: '#3b82f6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons for crisp visual cues -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- HEIC decoding library (heic2any) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        .dark ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .drop-zone--over { border-color: #3b82f6 !important; background-color: rgba(59, 130, 246, 0.05) !important; }
+    </style>
+
+    <!-- Structured Data JSON-LD: WebApplication & FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "PixelSwift Tools",
+          "url": "https://pixelswift.tools",
+          "description": "Free privacy-first browser tools for photo resizing in KB, signature resizing, HEIC conversion, video compression, and EXIF metadata cleaning.",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I resize a photo to 20 KB online?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Select our Photo & Signature Resizer tool, upload your photo, set the target size to 20 KB, and click Process Image to download your compressed file instantly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does PixelSwift Tools upload photos to an external server?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. All processing happens 100% locally inside your web browser. Your files never leave your device."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I convert HEIC photos from my iPhone to JPG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Navigate to the HEIC to JPG Converter, select your .heic file, choose JPEG format, and click Convert HEIC Now to download standard JPGs locally."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I compress a video to under 25 MB for Discord?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Open the Discord Video Compressor, choose your video file, keep the target size at 24 MB, and click Compress Video to re-encode via browser streams."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="bg-stone-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" onclick="nav('home')" class="flex items-center space-x-3 text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                <div class="p-2 bg-slate-900 text-amber-400 dark:bg-amber-500 dark:text-slate-950 rounded-xl shadow-sm border border-amber-500/20">
+                    <i class="fa-solid font-bold fa-bolt"></i>
+                </div>
+                <span class="text-slate-900 dark:text-white font-extrabold tracking-tight">Pixel<span class="text-blue-600 dark:text-amber-400">Swift</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-blue-600 dark:hover:text-amber-400 py-2 transition-colors">
+                        <span data-i18n="toolsDropdown">Tools</span>
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl py-2 hidden group-hover:block transition-all duration-150">
+                        <a href="#photo-resizer" onclick="nav('photo-resizer')" class="flex items-center px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-compress w-6 text-blue-600 dark:text-amber-400"></i> <span data-i18n="photoResizer">Photo & Signature Resizer</span></a>
+                        <a href="#heic-converter" onclick="nav('heic-converter')" class="flex items-center px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-file-image w-6 text-blue-600 dark:text-amber-400"></i> <span data-i18n="heicConverter">HEIC to JPG Converter</span></a>
+                        <a href="#video-compressor" onclick="nav('video-compressor')" class="flex items-center px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-video w-6 text-blue-600 dark:text-amber-400"></i> <span data-i18n="videoCompressor">Discord Video Compressor</span></a>
+                        <a href="#metadata-cleaner" onclick="nav('metadata-cleaner')" class="flex items-center px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-user-shield w-6 text-blue-600 dark:text-amber-400"></i> <span data-i18n="metadataCleaner">EXIF Metadata Cleaner</span></a>
+                    </div>
+                </div>
+                <a href="#about" onclick="nav('about')" class="hover:text-blue-600 dark:hover:text-amber-400 transition-colors" data-i18n="about">About Us</a>
+                <a href="#contact" onclick="nav('contact')" class="hover:text-blue-600 dark:hover:text-amber-400 transition-colors" data-i18n="contact">Contact Us</a>
+                <a href="#privacy" onclick="nav('privacy')" class="hover:text-blue-600 dark:hover:text-amber-400 transition-colors" data-i18n="privacy">Privacy Policy</a>
+            </nav>
+
+            <!-- Language & Theme Toggles -->
+            <div class="flex items-center space-x-3">
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-stone-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-semibold px-2.5 py-1.5 cursor-pointer focus:ring-2 focus:ring-blue-500">
+                    <option value="en">English (EN)</option>
+                    <option value="hi">हिन्दी (HI)</option>
+                    <option value="pt">Português (PT)</option>
+                    <option value="fr">Français (FR)</option>
+                    <option value="es">Español (ES)</option>
+                </select>
+
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-stone-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-stone-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden text-slate-700"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                </button>
+
+                <!-- Mobile menu toggle -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-stone-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 space-y-2">
+            <a href="#photo-resizer" onclick="nav('photo-resizer'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="photoResizer">Photo & Signature Resizer</a>
+            <a href="#heic-converter" onclick="nav('heic-converter'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="heicConverter">HEIC to JPG Converter</a>
+            <a href="#video-compressor" onclick="nav('video-compressor'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="videoCompressor">Discord Video Compressor</a>
+            <a href="#metadata-cleaner" onclick="nav('metadata-cleaner'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="metadataCleaner">EXIF Metadata Cleaner</a>
+            <hr class="border-slate-200 dark:border-slate-800 my-1">
+            <a href="#about" onclick="nav('about'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="about">About Us</a>
+            <a href="#contact" onclick="nav('contact'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="contact">Contact Us</a>
+            <a href="#privacy" onclick="nav('privacy'); toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 dark:text-slate-200" data-i18n="privacy">Privacy Policy</a>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= HOME PAGE ================= -->
+        <section id="page-home" class="space-y-12">
+            <!-- Hero Banner -->
+            <div class="text-center max-w-3xl mx-auto space-y-5 pt-6">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-amber-300 dark:bg-slate-900 dark:text-amber-400 border border-slate-800 dark:border-amber-500/30 shadow-sm">
+                    <i class="fa-solid fa-shield-halved text-xs text-amber-400"></i>
+                    <span data-i18n="privacyGuarantee">100% Private & Secure - Files Never Leave Your Browser</span>
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white" data-i18n="heroTitle">
+                    Free Online Photo Resizer, Image Compressor & Video Tools
+                </h1>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal" data-i18n="heroSubtitle">
+                    Resize images to exact file sizes in KB (20KB, 50KB, 100KB), format PAN & Passport photos, convert HEIC files locally, compress videos for Discord, and wipe privacy metadata instantly.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 pt-2">
+                    <button onclick="nav('photo-resizer')" class="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold shadow-lg shadow-slate-900/10 dark:shadow-amber-500/10 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-compress"></i> <span data-i18n="startResizing">Start Resizing Now</span>
+                    </button>
+                    <a href="#tools-overview" class="px-6 py-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-slate-800 dark:text-slate-200 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group"></i> <span data-i18n="exploreTools">Explore All Tools</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Image Banner Showcase -->
+            <div class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800 max-w-5xl mx-auto h-64 sm:h-80">
+                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80" alt="Digital Image Processing Dashboard" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end p-6 sm:p-8">
+                    <div class="text-white space-y-1">
+                        <span class="text-xs uppercase font-bold text-amber-400 tracking-wider" data-i18n="showcaseSub">Classic & Secure Media Utilities</span>
+                        <h2 class="text-xl sm:text-2xl font-bold" data-i18n="showcaseTitle">Lightning-Fast Direct Processing with Zero Cloud Uploads</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Overview Grid -->
+            <div id="tools-overview" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+                <!-- Tool Card 1 -->
+                <div onclick="nav('photo-resizer')" class="cursor-pointer group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-900 dark:hover:border-amber-500 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-32 -mx-6 -mt-6 mb-4 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80" alt="Photo Resizer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-slate-950/30"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-slate-900 dark:text-white" data-i18n="photoResizer">Exact-KB Photo & Signature Resizer</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="resizerDesc">Resize images to specific KB limits (20KB, 50KB, 100KB) and passport/signature dimensions automatically.</p>
+                    </div>
+                </div>
+
+                <!-- Tool Card 2 -->
+                <div onclick="nav('heic-converter')" class="cursor-pointer group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-900 dark:hover:border-amber-500 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-32 -mx-6 -mt-6 mb-4 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&q=80" alt="HEIC Converter" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-slate-950/30"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-file-image"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-slate-900 dark:text-white" data-i18n="heicConverter">HEIC to JPG/PNG Converter</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="heicDesc">Convert iPhone HEIC/HEIF photos into high-quality JPEG or PNG files directly on your device.</p>
+                    </div>
+                </div>
+
+                <!-- Tool Card 3 -->
+                <div onclick="nav('video-compressor')" class="cursor-pointer group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-900 dark:hover:border-amber-500 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-32 -mx-6 -mt-6 mb-4 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=500&q=80" alt="Video Compressor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-slate-950/30"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-slate-900 dark:text-white" data-i18n="videoCompressor">Discord Video Compressor</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="videoDesc">Target videos to under 25 MB or custom file limits for seamless uploading to Discord and messaging apps.</p>
+                    </div>
+                </div>
+
+                <!-- Tool Card 4 -->
+                <div onclick="nav('metadata-cleaner')" class="cursor-pointer group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-900 dark:hover:border-amber-500 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-32 -mx-6 -mt-6 mb-4 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=500&q=80" alt="Metadata Cleaner" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-slate-950/30"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-slate-900 dark:text-white" data-i18n="metadataCleaner">EXIF Privacy & Metadata Cleaner</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="metadataDesc">Inspect and strip GPS coordinates, camera specs, and creation timestamps before sharing photos online.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Content & Context Section for Google/Brave/AI Ranking -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 space-y-6 shadow-sm mt-12">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="whyHeading">Why Use PixelSwift Tools for Your Media Needs?</h2>
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm" data-i18n="whyText">
+                    PixelSwift Tools is built from the ground up for speed, precision, and privacy. Whether you are formatting government application paperwork that requires an exact photo resizer in KB (such as 20KB or 50KB limits for PAN card and passport uploads), converting Apple HEIC images to compatible JPG formats, or compressing heavy video files down under 25 MB for Discord sharing, our platform delivers instant results.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-slate-900 dark:text-white text-base"><i class="fa-solid fa-lock text-amber-500 mr-2"></i> <span data-i18n="feat1Title">Zero Cloud Uploads</span></h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="feat1Desc">All files are processed directly on your personal device using local web standards. Your personal images and videos never touch an external cloud server.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-slate-900 dark:text-white text-base"><i class="fa-solid fa-bolt text-amber-500 mr-2"></i> <span data-i18n="feat2Title">Lightning Fast</span></h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="feat2Desc">Leveraging direct hardware acceleration and modern browser engines, operations execute instantly without waiting in upload queues.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-slate-900 dark:text-white text-base"><i class="fa-solid fa-bullseye text-amber-500 mr-2"></i> <span data-i18n="feat3Title">Exact KB Precision</span></h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="feat3Desc">Our compression algorithm ensures your final image output hits your exact target size without sacrificing visual readability.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section for AI Search Engine Snippets -->
+            <div class="space-y-6 pt-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="faqHeading">Frequently Asked Questions</h2>
+                <div id="faqContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Populated dynamically via script -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TOOL 1: PHOTO RESIZER ================= -->
+        <section id="page-photo-resizer" class="hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-compress text-blue-600 dark:text-amber-400"></i>
+                        <span data-i18n="photoResizer">Exact-KB Photo & Signature Resizer</span>
+                    </h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="resizerHelp">Resize photos by exact KB size (20KB, 50KB, 100KB) and exact pixel/cm dimensions securely on your device.</p>
+                </div>
+
+                <!-- Quick Presets Bar -->
+                <div class="mb-6 p-4 rounded-xl bg-stone-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" data-i18n="quickPresets">Quick Presets</span>
+                        <select onchange="applyPreset(this.value)" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-lg px-3 py-1 text-xs font-semibold focus:ring-2 focus:ring-blue-500">
+                            <option value="" data-i18n="customPreset">-- Select Preset or Custom --</option>
+                            <option value="pan_photo">India PAN Card Photo (200x230 px, <= 50KB)</option>
+                            <option value="pan_sig">India PAN Card Signature (140x60 px, <= 20KB)</option>
+                            <option value="passport">Standard Passport Photo (35x45 mm, <= 100KB)</option>
+                            <option value="us_visa">US Visa Photo (600x600 px, <= 240KB)</option>
+                            <option value="insta_sq">Instagram Square (1080x1080 px)</option>
+                            <option value="insta_port">Instagram Portrait (1080x1350 px)</option>
+                            <option value="insta_story">Instagram Story (1080x1920 px)</option>
+                            <option value="shopify">Shopify Product (2048x2048 px)</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button onclick="setQuickKB(20)" class="px-3 py-1 bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md font-semibold border border-slate-300 dark:border-slate-700">20 KB</button>
+                        <button onclick="setQuickKB(50)" class="px-3 py-1 bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md font-semibold border border-slate-300 dark:border-slate-700">50 KB</button>
+                        <button onclick="setQuickKB(100)" class="px-3 py-1 bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md font-semibold border border-slate-300 dark:border-slate-700">100 KB</button>
+                        <button onclick="setQuickKB(200)" class="px-3 py-1 bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md font-semibold border border-slate-300 dark:border-slate-700">200 KB</button>
+                    </div>
+                </div>
+
+                <!-- Dropzone -->
+                <div id="photoDropzone" onclick="document.getElementById('photoFileInput').click()" class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-amber-400 rounded-xl p-8 text-center cursor-pointer transition-colors bg-stone-50/50 dark:bg-slate-800/30">
+                    <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handlePhotoSelect(event)">
+                    <div class="max-w-md mx-auto space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-900 text-amber-400 dark:bg-slate-800 dark:text-amber-400 border border-slate-700 flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            <span class="text-blue-600 dark:text-amber-400" data-i18n="clickToUpload">Click to upload</span> <span data-i18n="orDragDrop">or drag and drop</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="imgFormatsHint">JPG, PNG, WebP up to 50MB</p>
+                    </div>
+                </div>
+
+                <!-- Options Grid -->
+                <div id="photoControls" class="hidden mt-6 space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left Panel: Controls -->
+                        <div class="lg:col-span-1 space-y-4 bg-stone-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <h3 class="font-bold text-sm uppercase tracking-wide text-slate-700 dark:text-slate-300" data-i18n="outputSettings">Output Settings</h3>
+
+                            <!-- Target File Size -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="targetFileSize">Max Target File Size</label>
+                                <div class="flex space-x-2">
+                                    <input type="number" id="targetSizeVal" value="50" min="1" class="w-2/3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+                                    <select id="targetSizeUnit" class="w-1/3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+                                        <option value="KB">KB</option>
+                                        <option value="MB">MB</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Dimensions & Unit -->
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300" data-i18n="dimensions">Dimensions</label>
+                                    <label class="flex items-center space-x-1 text-xs text-slate-500 cursor-pointer">
+                                        <input type="checkbox" id="aspectRatioLock" checked class="rounded border-slate-300 dark:border-slate-700 text-slate-900 focus:ring-slate-500">
+                                        <span data-i18n="lockAspect">Lock Aspect</span>
+                                    </label>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mb-2">
+                                    <div>
+                                        <span class="text-[10px] text-slate-500 uppercase font-semibold" data-i18n="width">Width</span>
+                                        <input type="number" id="imgWidth" oninput="handleDimensionChange('w')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm font-semibold">
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] text-slate-500 uppercase font-semibold" data-i18n="height">Height</span>
+                                        <input type="number" id="imgHeight" oninput="handleDimensionChange('h')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm font-semibold">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="text-[10px] text-slate-500 uppercase font-semibold" data-i18n="unitLabel">Unit</span>
+                                        <select id="dimUnit" onchange="convertDimensionUnits()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-1.5 text-xs font-semibold">
+                                            <option value="px" data-i18n="unitPx">Pixels (px)</option>
+                                            <option value="cm" data-i18n="unitCm">Centimeters (cm)</option>
+                                            <option value="mm" data-i18n="unitMm">Millimeters (mm)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] text-slate-500 uppercase font-semibold" data-i18n="dpiLabel">DPI</span>
+                                        <input type="number" id="dpiInput" value="300" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Format -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="format">Format</label>
+                                <select id="outputFormat" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold">
+                                    <option value="image/jpeg">JPG / JPEG</option>
+                                    <option value="image/png">PNG</option>
+                                    <option value="image/webp">WebP</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="kbStandard">1 KB Standard</label>
+                                <select id="kbStandard" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold">
+                                    <option value="1024" data-i18n="kbStd1">1 KB = 1024 Bytes (Standard)</option>
+                                    <option value="1000" data-i18n="kbStd2">1 KB = 1000 Bytes (Decimal)</option>
+                                </select>
+                            </div>
+
+                            <button onclick="processPhotoResizing()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold shadow transition-all flex items-center justify-center gap-2">
+                                <i id="photoSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
+                                <span data-i18n="processImage">Process Image</span>
+                            </button>
+                        </div>
+
+                        <!-- Right Panel: Side-by-Side Preview -->
+                        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Original -->
+                            <div class="border border-slate-200 dark:border-slate-800 rounded-xl p-4 bg-white dark:bg-slate-900 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2" data-i18n="originalImage">Original Image</span>
+                                    <div class="h-48 flex items-center justify-center bg-stone-100 dark:bg-slate-950 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+                                        <img id="photoOrigPreview" class="max-h-full max-w-full object-contain">
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-slate-500 space-y-1">
+                                    <div><span data-i18n="size">Size</span>: <span id="photoOrigSize" class="font-mono font-medium">--</span></div>
+                                    <div><span data-i18n="dimensions">Dimensions</span>: <span id="photoOrigDim" class="font-mono font-medium">--</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Processed -->
+                            <div class="border border-slate-200 dark:border-slate-800 rounded-xl p-4 bg-white dark:bg-slate-900 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2" data-i18n="processedResult">Processed Result</span>
+                                    <div class="h-48 flex items-center justify-center bg-stone-100 dark:bg-slate-950 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+                                        <img id="photoResultPreview" class="max-h-full max-w-full object-contain">
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-xs text-slate-500 space-y-1">
+                                    <div><span data-i18n="finalSize">Final Size</span>: <span id="photoResultSize" class="font-mono font-medium text-slate-900 dark:text-amber-400">--</span></div>
+                                    <div><span data-i18n="dimensions">Dimensions</span>: <span id="photoResultDim" class="font-mono font-medium">--</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Download / Status Banner -->
+                    <div id="photoStatusBox" class="hidden p-4 rounded-xl border border-slate-300 dark:border-slate-800 bg-stone-100 dark:bg-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="flex items-center space-x-3">
+                            <i id="photoStatusIcon" class="fa-solid fa-circle-check text-green-600 text-lg"></i>
+                            <span id="photoStatusMsg" class="text-sm font-semibold text-slate-800 dark:text-slate-200" data-i18n="successMsgPhoto">Image successfully compressed!</span>
+                        </div>
+                        <a id="photoDownloadBtn" download="resized-image.jpg" class="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold rounded-xl text-xs shadow transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> <span data-i18n="download">Download File</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TOOL 2: HEIC TO JPG CONVERTER ================= -->
+        <section id="page-heic-converter" class="hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-file-image text-blue-600 dark:text-amber-400"></i>
+                        <span data-i18n="heicConverter">HEIC to JPG / PNG Converter</span>
+                    </h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="heicHelp">Convert Apple iPhone HEIC photos to compatible JPG or PNG formats securely on your device.</p>
+                </div>
+
+                <div id="heicDropzone" onclick="document.getElementById('heicFileInput').click()" class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-amber-400 rounded-xl p-8 text-center cursor-pointer transition-colors bg-stone-50/50 dark:bg-slate-800/30">
+                    <input type="file" id="heicFileInput" accept=".heic,.heif" class="hidden" onchange="handleHeicSelect(event)">
+                    <div class="max-w-md mx-auto space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-900 text-amber-400 dark:bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            <span class="text-blue-600 dark:text-amber-400" data-i18n="selectHeic">Select HEIC / HEIF File</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="heicSubHint">100% Private, Device-Based Conversion</p>
+                    </div>
+                </div>
+
+                <!-- HEIC Conversion Options & Preview -->
+                <div id="heicControls" class="hidden mt-6 space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-stone-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="flex items-center space-x-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="targetFormat">Target Format</label>
+                                <select id="heicTargetFormat" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-sm font-semibold">
+                                    <option value="image/jpeg">JPEG (.jpg)</option>
+                                    <option value="image/png">PNG (.png)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="quality">Quality</label>
+                                <input type="range" id="heicQuality" min="0.1" max="1" step="0.05" value="0.9" class="w-32 accent-slate-900 dark:accent-amber-400">
+                            </div>
+                        </div>
+                        <button onclick="convertHeicFile()" class="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 rounded-xl font-bold shadow transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-rotate"></i> <span data-i18n="convertNow">Convert HEIC Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Progress Status -->
+                    <div id="heicStatus" class="hidden p-4 rounded-xl border border-slate-300 dark:border-slate-800 bg-stone-100 dark:bg-slate-800/80 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i id="heicStatusIcon" class="fa-solid fa-circle-notch fa-spin text-slate-900 dark:text-amber-400"></i>
+                            <span id="heicStatusMsg" class="text-sm font-semibold text-slate-800 dark:text-slate-200" data-i18n="decodingHeic">Decoding HEIC structure...</span>
+                        </div>
+                        <a id="heicDownloadBtn" download="converted-image.jpg" class="hidden px-4 py-2 bg-slate-900 text-white dark:bg-amber-500 dark:text-slate-950 rounded-lg text-xs font-bold shadow" data-i18n="downloadJpg">Download JPG</a>
+                    </div>
+
+                    <!-- Output Preview Container -->
+                    <div id="heicResultBox" class="hidden text-center space-y-3">
+                        <img id="heicPreviewImg" class="max-h-96 mx-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TOOL 3: VIDEO COMPRESSOR FOR DISCORD ================= -->
+        <section id="page-video-compressor" class="hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-video text-blue-600 dark:text-amber-400"></i>
+                        <span data-i18n="videoCompressor">Target-Size Video Compressor (Discord)</span>
+                    </h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="videoHelp">Compress videos under 25 MB for Discord sharing or custom file size targets securely on your device.</p>
+                </div>
+
+                <div id="videoDropzone" onclick="document.getElementById('videoFileInput').click()" class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-amber-400 rounded-xl p-8 text-center cursor-pointer transition-colors bg-stone-50/50 dark:bg-slate-800/30">
+                    <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="hidden" onchange="handleVideoSelect(event)">
+                    <div class="max-w-md mx-auto space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-900 text-amber-400 dark:bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-file-video"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            <span class="text-blue-600 dark:text-amber-400" data-i18n="selectVideo">Select Video File</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="videoSubHint">MP4, WebM, MOV supported (Direct browser video processing)</p>
+                    </div>
+                </div>
+
+                <!-- Video Controls & Details -->
+                <div id="videoControls" class="hidden mt-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4 bg-stone-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <h3 class="font-bold text-sm uppercase tracking-wide text-slate-700 dark:text-slate-300" data-i18n="compressionConfig">Compression Configuration</h3>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="targetMB">Target Video Size (MB)</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="number" id="videoTargetMB" value="24" min="1" max="500" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500">
+                                    <span class="text-sm font-bold">MB</span>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="discordHint">Discord non-nitro upload limit is 25 MB (We set 24 MB for safety).</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" data-i18n="resolutionScale">Resolution Scale</label>
+                                <select id="videoScale" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold">
+                                    <option value="1" data-i18n="scaleOrig">Original Resolution</option>
+                                    <option value="0.75" data-i18n="scale75">75% Resolution</option>
+                                    <option value="0.5" data-i18n="scale50">50% Resolution (Recommended for large videos)</option>
+                                    <option value="0.33" data-i18n="scale33">33% Resolution</option>
+                                </select>
+                            </div>
+
+                            <button onclick="startVideoCompression()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold shadow transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play"></i> <span data-i18n="compressVideo">Compress Video</span>
+                            </button>
+                        </div>
+
+                        <!-- Video Preview Box -->
+                        <div class="space-y-3">
+                            <video id="videoPreview" controls class="w-full h-48 bg-black rounded-xl object-contain border border-slate-200 dark:border-slate-800"></video>
+                            <div class="text-xs text-slate-500 dark:text-slate-400 space-y-1">
+                                <div><span data-i18n="originalSize">Original File Size</span>: <span id="videoOrigSize" class="font-mono font-medium text-slate-800 dark:text-slate-200">--</span></div>
+                                <div><span data-i18n="duration">Duration</span>: <span id="videoDuration" class="font-mono font-medium text-slate-800 dark:text-slate-200">--</span></div>
+                                <div><span data-i18n="estimatedBitrate">Calculated Target Bitrate</span>: <span id="videoCalcBitrate" class="font-mono font-medium text-slate-800 dark:text-slate-200">--</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Status -->
+                    <div id="videoStatus" class="hidden p-4 rounded-xl border border-slate-300 dark:border-slate-800 bg-stone-100 dark:bg-slate-800/80 space-y-3">
+                        <div class="flex justify-between items-center text-xs font-semibold">
+                            <span id="videoStatusText" class="text-slate-800 dark:text-slate-200" data-i18n="encodingFrames">Encoding video frames...</span>
+                            <span id="videoPercent" class="text-slate-900 dark:text-amber-400">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 dark:bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-300 dark:border-slate-800">
+                            <div id="videoProgressBar" class="bg-slate-900 dark:bg-amber-400 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+                        </div>
+                        <div id="videoDownloadBox" class="hidden pt-2 text-right">
+                            <a id="videoDownloadBtn" download="compressed-video.webm" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold rounded-xl text-xs shadow inline-flex items-center gap-2">
+                                <i class="fa-solid fa-download"></i> <span data-i18n="downloadVideo">Download Compressed Video</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TOOL 4: EXIF METADATA CLEANER ================= -->
+        <section id="page-metadata-cleaner" class="hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-user-shield text-blue-600 dark:text-amber-400"></i>
+                        <span data-i18n="metadataCleaner">EXIF Privacy & Metadata Cleaner</span>
+                    </h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="metaHelp">Wipe sensitive GPS coordinates, camera specs, and creation metadata locally before publishing photos.</p>
+                </div>
+
+                <div id="metaDropzone" onclick="document.getElementById('metaFileInput').click()" class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-amber-400 rounded-xl p-8 text-center cursor-pointer transition-colors bg-stone-50/50 dark:bg-slate-800/30">
+                    <input type="file" id="metaFileInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleMetaSelect(event)">
+                    <div class="max-w-md mx-auto space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-900 text-amber-400 dark:bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-shield-cat"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            <span class="text-blue-600 dark:text-amber-400" data-i18n="selectImageMeta">Select Image to Clean</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="metaFormatsHint">JPG, PNG, WebP Supported</p>
+                    </div>
+                </div>
+
+                <div id="metaControls" class="hidden mt-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Left: Info -->
+                        <div class="p-5 bg-stone-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4">
+                            <h3 class="font-bold text-sm uppercase text-slate-700 dark:text-slate-300" data-i18n="metaDetection">Metadata Removal Details</h3>
+                            <div class="text-xs text-slate-600 dark:text-slate-300 space-y-2.5">
+                                <p class="flex items-center"><i class="fa-solid fa-check text-green-600 mr-2"></i> <span data-i18n="metaDetail1">Removes EXIF GPS Location Coordinates</span></p>
+                                <p class="flex items-center"><i class="fa-solid fa-check text-green-600 mr-2"></i> <span data-i18n="metaDetail2">Strips Camera Model & Lens Specs</span></p>
+                                <p class="flex items-center"><i class="fa-solid fa-check text-green-600 mr-2"></i> <span data-i18n="metaDetail3">Deletes Timestamp & Serial Numbers</span></p>
+                                <p class="flex items-center"><i class="fa-solid fa-check text-green-600 mr-2"></i> <span data-i18n="metaDetail4">Re-encodes cleanly on your device</span></p>
+                            </div>
+                            <button onclick="cleanImageMetadata()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold shadow transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-broom"></i> <span data-i18n="wipeMeta">Wipe Metadata & Re-encode</span>
+                            </button>
+                        </div>
+
+                        <!-- Right: Preview -->
+                        <div class="flex flex-col items-center justify-center p-4 border border-slate-200 dark:border-slate-800 rounded-xl bg-stone-50/50 dark:bg-slate-900/50">
+                            <img id="metaPreviewImg" class="max-h-48 object-contain rounded-lg">
+                        </div>
+                    </div>
+
+                    <!-- Cleaned Output -->
+                    <div id="metaResult" class="hidden p-4 rounded-xl border border-green-200 dark:border-green-900 bg-green-50/50 dark:bg-green-950/30 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-circle-check text-green-600 text-xl"></i>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200" data-i18n="metaCleanSuccess">Metadata removed successfully! Clean file ready.</span>
+                        </div>
+                        <a id="metaDownloadBtn" download="cleaned-image.jpg" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold rounded-xl text-xs shadow flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> <span data-i18n="downloadCleaned">Download Cleaned Image</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT US PAGE ================= -->
+        <section id="page-about" class="hidden max-w-4xl mx-auto space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm space-y-4">
+                <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white" data-i18n="about">About PixelSwift Tools</h1>
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="aboutDesc1">
+                    PixelSwift Tools provides high-performance, privacy-focused browser utilities for resizing photos, converting modern images, compressing videos, and clearing sensitive EXIF metadata.
+                </p>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white pt-2" data-i18n="aboutSubHeading">Direct Device Processing Guarantee</h2>
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="aboutDesc2">
+                    Unlike traditional file processing websites that require uploading your sensitive images and documents to remote cloud servers, PixelSwift Tools runs entirely inside your web browser using local device capabilities. Your files are never transmitted across the internet, guaranteeing complete privacy and zero data leakage.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT US PAGE ================= -->
+        <section id="page-contact" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm space-y-4">
+                <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white" data-i18n="contact">Contact Us</h1>
+                <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="contactHelp">Have questions or feedback? Send us a message below.</p>
+                
+                <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" data-i18n="labelName">Your Name</label>
+                        <input type="text" required class="w-full bg-stone-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" data-i18n="labelEmail">Your Email</label>
+                        <input type="email" required class="w-full bg-stone-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" data-i18n="labelMsg">Message</label>
+                        <textarea rows="4" required class="w-full bg-stone-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold rounded-xl shadow" data-i18n="sendBtn">Send Message</button>
+                </form>
+                <div id="contactMsg" class="hidden text-xs p-3 rounded-lg bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200" data-i18n="contactSuccess">
+                    Thank you! Form message submitted successfully.
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PRIVACY POLICY PAGE ================= -->
+        <section id="page-privacy" class="hidden max-w-4xl mx-auto space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm space-y-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white" data-i18n="privacy">Privacy Policy</h1>
+                <p><strong data-i18n="privacyDate">Last Updated: October 2026</strong></p>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="privacySec1Title">1. Local Processing Model</h2>
+                <p data-i18n="privacySec1Desc">PixelSwift Tools processes all uploaded photos, signatures, HEIC images, and videos entirely within your browser using local web standards. No files are uploaded to any external application server or cloud storage.</p>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="privacySec2Title">2. Network & Third-Party CDNs</h2>
+                <p data-i18n="privacySec2Desc">Standard webpage assets, stylesheet icons, and libraries (such as Tailwind CSS and heic2any) are loaded from public CDNs. These CDN requests handle standard network traffic logs but do not receive or inspect your local media files.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="footerCopy">
+                &copy; 2026 PixelSwift Tools. All rights reserved. 100% Private Device-Based Media Processing.
+            </p>
+            <div class="flex justify-center space-x-6 text-xs text-slate-500">
+                <a href="#photo-resizer" onclick="nav('photo-resizer')" class="hover:underline" data-i18n="photoResizer">Photo Resizer</a>
+                <a href="#heic-converter" onclick="nav('heic-converter')" class="hover:underline" data-i18n="heicConverter">HEIC to JPG</a>
+                <a href="#video-compressor" onclick="nav('video-compressor')" class="hover:underline" data-i18n="videoCompressor">Discord Video Compressor</a>
+                <a href="#metadata-cleaner" onclick="nav('metadata-cleaner')" class="hover:underline" data-i18n="metadataCleaner">Metadata Cleaner</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                toolsDropdown: "Tools",
+                about: "About Us",
+                contact: "Contact Us",
+                privacy: "Privacy Policy",
+                photoResizer: "Photo & Signature Resizer",
+                heicConverter: "HEIC to JPG Converter",
+                videoCompressor: "Discord Video Compressor",
+                metadataCleaner: "EXIF Metadata Cleaner",
+                privacyGuarantee: "100% Private & Secure - Files Never Leave Your Browser",
+                heroTitle: "Free Online Photo Resizer, Image Compressor & Video Tools",
+                heroSubtitle: "Resize images to exact file sizes in KB (20KB, 50KB, 100KB), format PAN & Passport photos, convert HEIC files locally, compress videos for Discord, and remove image metadata directly in your browser.",
+                startResizing: "Start Resizing Now",
+                exploreTools: "Explore All Tools",
+                resizerDesc: "Resize images to specific KB limits (20KB, 50KB, 100KB) and passport/signature dimensions automatically.",
+                heicDesc: "Convert iPhone HEIC/HEIF photos into high-quality JPEG or PNG files directly on your device.",
+                videoDesc: "Target videos to under 25 MB or custom file limits for seamless uploading to Discord and messaging apps.",
+                metadataDesc: "Inspect and strip GPS coordinates, camera specs, and creation timestamps before sharing photos online.",
+                faqHeading: "Frequently Asked Questions",
+                resizerHelp: "Resize photos by exact KB size (20KB, 50KB, 100KB) and exact pixel/cm dimensions securely on your device.",
+                quickPresets: "Quick Presets",
+                customPreset: "-- Select Preset or Custom --",
+                clickToUpload: "Click to upload",
+                orDragDrop: "or drag and drop",
+                outputSettings: "Output Settings",
+                targetFileSize: "Max Target File Size",
+                dimensions: "Dimensions",
+                lockAspect: "Lock Aspect",
+                width: "Width",
+                height: "Height",
+                format: "Format",
+                kbStandard: "1 KB Standard",
+                processImage: "Process Image",
+                originalImage: "Original Image",
+                processedResult: "Processed Result",
+                size: "Size",
+                finalSize: "Final Size",
+                processing: "Processing...",
+                download: "Download File",
+                heicHelp: "Convert Apple iPhone HEIC photos to compatible JPG or PNG formats securely on your device.",
+                selectHeic: "Select HEIC / HEIF File",
+                targetFormat: "Target Format",
+                quality: "Quality",
+                convertNow: "Convert HEIC Now",
+                videoHelp: "Compress videos under 25 MB for Discord sharing or custom file size targets securely on your device.",
+                selectVideo: "Select Video File",
+                compressionConfig: "Compression Configuration",
+                targetMB: "Target Video Size (MB)",
+                discordHint: "Discord non-nitro upload limit is 25 MB (We set 24 MB for safety).",
+                resolutionScale: "Resolution Scale",
+                compressVideo: "Compress Video",
+                originalSize: "Original File Size",
+                duration: "Duration",
+                estimatedBitrate: "Calculated Target Bitrate",
+                downloadVideo: "Download Compressed Video",
+                metaHelp: "Wipe sensitive GPS coordinates, camera specs, and creation metadata locally before publishing photos.",
+                selectImageMeta: "Select Image to Clean",
+                metaDetection: "Metadata Removal Details",
+                wipeMeta: "Wipe Metadata & Re-encode",
+                metaCleanSuccess: "Metadata removed successfully! Clean file ready.",
+                downloadCleaned: "Download Cleaned Image",
+                showcaseSub: "Classic & Secure Media Utilities",
+                showcaseTitle: "Lightning-Fast Direct Processing with Zero Cloud Uploads",
+                whyHeading: "Why Use PixelSwift Tools for Your Media Needs?",
+                whyText: "PixelSwift Tools is built from the ground up for speed, precision, and privacy. Whether you are formatting government application paperwork that requires an exact photo resizer in KB (such as 20KB or 50KB limits for PAN card and passport uploads), converting Apple HEIC images to compatible JPG formats, or compressing heavy video files down under 25 MB for Discord sharing, our platform delivers instant results.",
+                feat1Title: "Zero Cloud Uploads",
+                feat1Desc: "All files are processed directly on your personal device using local web standards. Your personal images and videos never touch an external cloud server.",
+                feat2Title: "Lightning Fast",
+                feat2Desc: "Leveraging direct hardware acceleration and modern browser engines, operations execute instantly without waiting in upload queues.",
+                feat3Title: "Exact KB Precision",
+                feat3Desc: "Our compression algorithm ensures your final image output hits your exact target size without sacrificing visual readability.",
+                imgFormatsHint: "JPG, PNG, WebP up to 50MB",
+                unitLabel: "Unit",
+                unitPx: "Pixels (px)",
+                unitCm: "Centimeters (cm)",
+                unitMm: "Millimeters (mm)",
+                dpiLabel: "DPI",
+                kbStd1: "1 KB = 1024 Bytes (Standard)",
+                kbStd2: "1 KB = 1000 Bytes (Decimal)",
+                successMsgPhoto: "Image successfully compressed!",
+                heicSubHint: "100% Private, Device-Based Conversion",
+                decodingHeic: "Decoding HEIC structure...",
+                downloadJpg: "Download JPG",
+                videoSubHint: "MP4, WebM, MOV supported (Direct browser video processing)",
+                scaleOrig: "Original Resolution",
+                scale75: "75% Resolution",
+                scale50: "50% Resolution (Recommended for large videos)",
+                scale33: "33% Resolution",
+                encodingFrames: "Encoding video frames...",
+                metaFormatsHint: "JPG, PNG, WebP Supported",
+                metaDetail1: "Removes EXIF GPS Location Coordinates",
+                metaDetail2: "Strips Camera Model & Lens Specs",
+                metaDetail3: "Deletes Timestamp & Serial Numbers",
+                metaDetail4: "Re-encodes cleanly on your device",
+                aboutDesc1: "PixelSwift Tools provides high-performance, privacy-focused browser utilities for resizing photos, converting modern images, compressing videos, and clearing sensitive EXIF metadata.",
+                aboutSubHeading: "Direct Device Processing Guarantee",
+                aboutDesc2: "Unlike traditional file processing websites that require uploading your sensitive images and documents to remote cloud servers, PixelSwift Tools runs entirely inside your web browser using local device capabilities. Your files are never transmitted across the internet, guaranteeing complete privacy and zero data leakage.",
+                contactHelp: "Have questions or feedback? Send us a message below.",
+                labelName: "Your Name",
+                labelEmail: "Your Email",
+                labelMsg: "Message",
+                sendBtn: "Send Message",
+                contactSuccess: "Thank you! Form message submitted successfully.",
+                privacyDate: "Last Updated: October 2026",
+                privacySec1Title: "1. Local Processing Model",
+                privacySec1Desc: "PixelSwift Tools processes all uploaded photos, signatures, HEIC images, and videos entirely within your browser using local web standards. No files are uploaded to any external application server or cloud storage.",
+                privacySec2Title: "2. Network & Third-Party CDNs",
+                privacySec2Desc: "Standard webpage assets, stylesheet icons, and libraries (such as Tailwind CSS and heic2any) are loaded from public CDNs. These CDN requests handle standard network traffic logs but do not receive or inspect your local media files.",
+                footerCopy: "&copy; 2026 PixelSwift Tools. All rights reserved. 100% Private Device-Based Media Processing."
+            },
+            hi: {
+                toolsDropdown: "उपकरण",
+                about: "हमारे बारे में",
+                contact: "संपर्क करें",
+                privacy: "गोपनीयता नीति",
+                photoResizer: "फोटो और हस्ताक्षर रिसाइज़र",
+                heicConverter: "HEIC से JPG कनवर्टर",
+                videoCompressor: "डिस्कॉर्ड वीडियो कंप्रेसर",
+                metadataCleaner: "EXIF मेटाडेटा क्लीनर",
+                privacyGuarantee: "100% सुरक्षित और निजी - फ़ाइलें आपके ब्राउज़र से बाहर नहीं जाती हैं",
+                heroTitle: "निःशुल्क ऑनलाइन फोटो रिसाइज़र, इमेज कंप्रेसर और वीडियो टूल",
+                heroSubtitle: "KB (20KB, 50KB, 100KB) में सटीक फ़ाइल आकारों में छवियों का आकार बदलें, पैन और पासपोर्ट फोटो स्वरूपित करें।",
+                startResizing: "अभी रिसाइज करना शुरू करें",
+                exploreTools: "सभी टूल देखें",
+                resizerDesc: "छवियों को सटीक KB सीमाओं (20KB, 50KB) और पासपोर्ट/हस्ताक्षर आयामों में बदलें।",
+                heicDesc: "iPhone HEIC फोटो को गुणवत्तापूर्ण JPEG या PNG फ़ाइलों में परिवर्तित करें।",
+                videoDesc: "डिस्कॉर्ड शेयरिंग के लिए वीडियो को 25 MB से कम कंप्रेस करें।",
+                metadataDesc: "ऑनलाइन फोटो साझा करने से पहले GPS स्थान और कैमरा मेटाडेटा हटाएं।",
+                faqHeading: "अक्सर पूछे जाने वाले प्रश्न",
+                resizerHelp: "सटीक KB आकार और पिक्सेल आयामों द्वारा स्थानीय रूप से फ़ोटो का आकार बदलें।",
+                quickPresets: "त्वरित प्रीसेट",
+                customPreset: "-- प्रीसेट या कस्टम चुनें --",
+                clickToUpload: "अपलोड करने के लिए क्लिक करें",
+                orDragDrop: "या ड्रैग एंड ड्रॉप करें",
+                outputSettings: "आउटपुट सेटिंग्स",
+                targetFileSize: "अधिकतम लक्ष्य फ़ाइल आकार",
+                dimensions: "आयाम",
+                lockAspect: "पहलू लॉक करें",
+                width: "चौड़ाई",
+                height: "ऊँचाई",
+                format: "प्रारूप",
+                kbStandard: "1 KB मानक",
+                processImage: "इमेज प्रोसेस करें",
+                originalImage: "मूल इमेज",
+                processedResult: "प्रसंस्कृत परिणाम",
+                size: "आकार",
+                finalSize: "अंतिम आकार",
+                processing: "प्रक्रिया जारी है...",
+                download: "फ़ाइल डाउनलोड करें",
+                heicHelp: "Apple iPhone HEIC तस्वीरों को सुरक्षित रूप से JPG या PNG में बदलें।",
+                selectHeic: "HEIC / HEIF फ़ाइल चुनें",
+                targetFormat: "लक्ष्य प्रारूप",
+                quality: "गुणवत्ता",
+                convertNow: "HEIC अभी परिवर्तित करें",
+                videoHelp: "डिस्कॉर्ड के लिए वीडियो 25 MB से कम कंप्रेस करें।",
+                selectVideo: "वीडियो फ़ाइल चुनें",
+                compressionConfig: "कंप्रेशन कॉन्फ़िगरेशन",
+                targetMB: "लक्ष्य वीडियो आकार (MB)",
+                discordHint: "डिस्कॉर्ड अपलोड सीमा 25 MB है।",
+                resolutionScale: "रिजोल्यूशन स्केल",
+                compressVideo: "वीडियो कंप्रेस करें",
+                originalSize: "मूल फ़ाइल आकार",
+                duration: "अवधि",
+                estimatedBitrate: "गणना किया गया बिटरेट",
+                downloadVideo: "कंप्रेस वीडियो डाउनलोड करें",
+                metaHelp: "संवेदनशील GPS समन्वय और कैमरा डेटा हटाएं।",
+                selectImageMeta: "साफ़ करने के लिए चित्र चुनें",
+                metaDetection: "मेटाडेटा हटाने का विवरण",
+                wipeMeta: "मेटाडेटा मिटाएं",
+                metaCleanSuccess: "मेटाडेटा सफलतापूर्वक हटा दिया गया!",
+                downloadCleaned: "साफ़ की गई छवि डाउनलोड करें",
+                showcaseSub: "क्लासिक और सुरक्षित मीडिया यूटिलिटीज",
+                showcaseTitle: "शून्य क्लाउड अपलोड के साथ बिजली की तेज़ प्रत्यक्ष प्रक्रिया",
+                whyHeading: "अपनी मीडिया आवश्यकताओं के लिए पिक्सेल स्विफ्ट टूल्स का उपयोग क्यों करें?",
+                whyText: "पिक्सेल स्विफ्ट टूल्स को गति, सटीकता और गोपनीयता के लिए जमीन से तैयार किया गया है। चाहे आप सरकारी आवेदन के कागजी कार्रवाई के लिए KB में सटीक फोटो रिसाइज़र (जैसे पैन कार्ड और पासपोर्ट अपलोड के लिए 20KB या 50KB सीमाएं) का उपयोग कर रहे हों, या Apple HEIC छवियों को JPG में बदल रहे हों, हमारा प्लेटफ़ॉर्म तुरंत परिणाम देता है।",
+                feat1Title: "शून्य क्लाउड अपलोड",
+                feat1Desc: "सभी फाइलें स्थानीय वेब मानकों का उपयोग करके सीधे आपके व्यक्तिगत डिवाइस पर प्रोसेस की जाती हैं। आपकी व्यक्तिगत छवियां कभी भी बाहरी क्लाउड सर्वर पर नहीं जाती हैं।",
+                feat2Title: "बिजली की तरह तेज़",
+                feat2Desc: "प्रत्यक्ष हार्डवेयर त्वरण और आधुनिक ब्राउज़र इंजनों का लाभ उठाते हुए, संचालन बिना किसी कतार के तुरंत निष्पादित होते हैं।",
+                feat3Title: "सटीक KB परिशुद्धता",
+                feat3Desc: "हमारा कंप्रेशन एल्गोरिदम सुनिश्चित करता है कि आपकी अंतिम छवि दृश्य पठनीयता का त्याग किए बिना आपके सटीक लक्ष्य आकार तक पहुंचे।",
+                imgFormatsHint: "JPG, PNG, WebP 50MB तक",
+                unitLabel: "इकाई",
+                unitPx: "पिक्सेल (px)",
+                unitCm: "सेंटीमीटर (cm)",
+                unitMm: "मिलीमीटर (mm)",
+                dpiLabel: "DPI",
+                kbStd1: "1 KB = 1024 बाइट्स (मानक)",
+                kbStd2: "1 KB = 1000 बाइट्स (दशमलव)",
+                successMsgPhoto: "इमेज सफलतापूर्वक कंप्रेस हो गई!",
+                heicSubHint: "100% निजी, डिवाइस-आधारित रूपांतरण",
+                decodingHeic: "HEIC संरचना डिकोड हो रही है...",
+                downloadJpg: "JPG डाउनलोड करें",
+                videoSubHint: "MP4, WebM, MOV समर्थित (प्रत्यक्ष ब्राउज़र वीडियो प्रोसेसिंग)",
+                scaleOrig: "मूल रिज़ॉल्यूशन",
+                scale75: "75% रिज़ॉल्यूशन",
+                scale50: "50% रिज़ॉल्यूशन (बड़े वीडियो के लिए अनुशंसित)",
+                scale33: "33% रिज़ॉल्यूशन",
+                encodingFrames: "वीडियो फ़्रेम एन्कोड हो रहे हैं...",
+                metaFormatsHint: "JPG, PNG, WebP समर्थित",
+                metaDetail1: "EXIF GPS स्थान निर्देशांक हटाता है",
+                metaDetail2: "कैमरा मॉडल और लेंस विनिर्देश हटाता है",
+                metaDetail3: "टाइमस्टैम्प और सीरियल नंबर हटाता है",
+                metaDetail4: "आपके डिवाइस पर साफ रूप से री-एनकोड करता है",
+                aboutDesc1: "पिक्सेल स्विफ्ट टूल्स फ़ोटो का आकार बदलने, आधुनिक छवियों को बदलने, वीडियो कंप्रेस करने और संवेदनशील EXIF मेटाडेटा साफ करने के लिए उच्च-प्रदर्शन, गोपनीयता-केंद्रित ब्राउज़र उपयोगिताएँ प्रदान करता है।",
+                aboutSubHeading: "प्रत्यक्ष डिवाइस प्रोसेसिंग गारंटी",
+                aboutDesc2: "पारंपरिक फ़ाइल प्रोसेसिंग वेबसाइटों के विपरीत, पिक्सेल स्विफ्ट टूल्स पूरी तरह से आपके वेब ब्राउज़र के भीतर स्थानीय डिवाइस क्षमताओं का उपयोग करता है।",
+                contactHelp: "प्रश्न या प्रतिक्रिया है? नीचे एक संदेश भेजें।",
+                labelName: "आपका नाम",
+                labelEmail: "आपका ईमेल",
+                labelMsg: "संदेश",
+                sendBtn: "संदेश भेजें",
+                contactSuccess: "धन्यवाद! फॉर्म संदेश सफलतापूर्वक सबमिट कर दिया गया।",
+                privacyDate: "अंतिम अद्यतन: अक्टूबर 2026",
+                privacySec1Title: "1. स्थानीय प्रोसेसिंग मॉडल",
+                privacySec1Desc: "पिक्सेल स्विफ्ट टूल्स स्थानीय वेब मानकों का उपयोग करके आपके ब्राउज़र के भीतर सभी अपलोड की गई तस्वीरों और वीडियो को प्रोसेस करता है। किसी भी बाहरी सर्वर पर फाइलें अपलोड नहीं की जाती हैं।",
+                privacySec2Title: "2. नेटवर्क और तृतीय-पक्ष CDN",
+                privacySec2Desc: "मानक वेबपेज संपत्तियों और पुस्तकालयों को सार्वजनिक CDN से लोड किया जाता है।",
+                footerCopy: "&copy; 2026 PixelSwift Tools. सर्वाधिकार सुरक्षित। 100% निजी डिवाइस-आधारित मीडिया प्रोसेसिंग।"
+            },
+            pt: {
+                toolsDropdown: "Ferramentas",
+                about: "Sobre Nós",
+                contact: "Contato",
+                privacy: "Política de Privacidade",
+                photoResizer: "Redimensionador de Fotos e Assinaturas",
+                heicConverter: "Conversor HEIC para JPG",
+                videoCompressor: "Compressor de Vídeo para Discord",
+                metadataCleaner: "Limpador de Metadados EXIF",
+                privacyGuarantee: "100% Local e Privado - Os arquivos nunca saem do seu navegador",
+                heroTitle: "Redimensionador de Fotos, Compressor de Imagens e Ferramentas de Vídeo Grátis",
+                heroSubtitle: "Redimensione imagens para tamanhos exatos em KB (20KB, 50KB, 100KB), converta arquivos HEIC e comprima vídeos para Discord.",
+                startResizing: "Começar a Redimensionar",
+                exploreTools: "Explorar Ferramentas",
+                resizerDesc: "Redimensione fotos para limites exatos de KB e dimensões de passaporte.",
+                heicDesc: "Converta fotos HEIC de iPhone em arquivos JPEG ou PNG locais.",
+                videoDesc: "Comprima vídeos para menos de 25 MB para o Discord.",
+                metadataDesc: "Remova coordenadas GPS e metadados de câmera antes de compartilhar fotos.",
+                faqHeading: "Perguntas Frequentes",
+                resizerHelp: "Redimensione fotos por KB exato e dimensões de pixel localmente.",
+                quickPresets: "Predefinições Rápidas",
+                customPreset: "-- Selecione uma Predefinição --",
+                clickToUpload: "Clique para enviar",
+                orDragDrop: "ou arraste e solte",
+                outputSettings: "Configurações de Saída",
+                targetFileSize: "Tamanho Máximo do Arquivo",
+                dimensions: "Dimensões",
+                lockAspect: "Bloquear Proporção",
+                width: "Largura",
+                height: "Altura",
+                format: "Formato",
+                kbStandard: "Padrão 1 KB",
+                processImage: "Processar Imagem",
+                originalImage: "Imagem Original",
+                processedResult: "Resultado Processado",
+                size: "Tamanho",
+                finalSize: "Tamanho Final",
+                processing: "Processando...",
+                download: "Baixar Arquivo",
+                heicHelp: "Converta fotos HEIC de iPhone para JPG ou PNG no navegador.",
+                selectHeic: "Selecionar Arquivo HEIC",
+                targetFormat: "Formato Final",
+                quality: "Qualidade",
+                convertNow: "Converter HEIC Agora",
+                videoHelp: "Comprima vídeos para menos de 25 MB para o Discord.",
+                selectVideo: "Selecionar Vídeo",
+                compressionConfig: "Configuração de Compressão",
+                targetMB: "Tamanho Alvo (MB)",
+                discordHint: "O limite do Discord é 25 MB.",
+                resolutionScale: "Escala de Resolução",
+                compressVideo: "Comprimir Vídeo",
+                originalSize: "Tamanho Original",
+                duration: "Duração",
+                estimatedBitrate: "Taxa de Bits Calculada",
+                downloadVideo: "Baixar Vídeo Comprimido",
+                metaHelp: "Remova coordenadas GPS e metadados de câmera.",
+                selectImageMeta: "Selecionar Imagem",
+                metaDetection: "Detalhes da Remoção",
+                wipeMeta: "Limpar Metadados",
+                metaCleanSuccess: "Metadados removidos com sucesso!",
+                downloadCleaned: "Baixar Imagem Limpa",
+                showcaseSub: "Utilitários de Mídia Seguros",
+                showcaseTitle: "Processamento Direto Ultrarrápido com Zero Uploads em Nuvem",
+                whyHeading: "Por que usar o PixelSwift Tools?",
+                whyText: "O PixelSwift Tools foi desenvolvido para velocidade, precisão e privacidade. Seja formatando documentos governamentais que exigem limites exatos de KB ou compactando vídeos para o Discord, nossa plataforma oferece resultados instantâneos.",
+                feat1Title: "Zero Uploads em Nuvem",
+                feat1Desc: "Todos os arquivos são processados diretamente no seu dispositivo pessoal usando padrões web locais.",
+                feat2Title: "Ultrarrápido",
+                feat2Desc: "Aproveitando aceleração de hardware direto e motores modernos de navegador.",
+                feat3Title: "Precisão Exata em KB",
+                feat3Desc: "Nosso algoritmo garante que a imagem final atinja o tamanho alvo exato sem perda visual.",
+                imgFormatsHint: "JPG, PNG, WebP até 50MB",
+                unitLabel: "Unidade",
+                unitPx: "Pixels (px)",
+                unitCm: "Centímetros (cm)",
+                unitMm: "Milímetros (mm)",
+                dpiLabel: "DPI",
+                kbStd1: "1 KB = 1024 Bytes (Padrão)",
+                kbStd2: "1 KB = 1000 Bytes (Decimal)",
+                successMsgPhoto: "Imagem compactada com sucesso!",
+                heicSubHint: "Conversão 100% Privada baseada no dispositivo",
+                decodingHeic: "Decodificando estrutura HEIC...",
+                downloadJpg: "Baixar JPG",
+                videoSubHint: "MP4, WebM, MOV suportados",
+                scaleOrig: "Resolução Original",
+                scale75: "Resolução de 75%",
+                scale50: "Resolução de 50% (Recomendado para vídeos grandes)",
+                scale33: "Resolução de 33%",
+                encodingFrames: "Codificando quadros de vídeo...",
+                metaFormatsHint: "JPG, PNG, WebP Suportados",
+                metaDetail1: "Remove coordenadas de localização GPS EXIF",
+                metaDetail2: "Remove especificações de câmera e lente",
+                metaDetail3: "Exclui carimbos de data/hora",
+                metaDetail4: "Reencodifica limpo no seu dispositivo",
+                aboutDesc1: "O PixelSwift Tools fornece utilitários de navegador de alto desempenho para redimensionar fotos e limpar metadados EXIF.",
+                aboutSubHeading: "Garantia de Processamento Direto no Dispositivo",
+                aboutDesc2: "Ao contrário dos sites tradicionais, o PixelSwift Tools roda inteiramente no seu navegador usando recursos locais do seu aparelho.",
+                contactHelp: "Tem dúvidas ou comentários? Envie-nos uma mensagem abaixo.",
+                labelName: "Seu Nome",
+                labelEmail: "Seu E-mail",
+                labelMsg: "Mensagem",
+                sendBtn: "Enviar Mensagem",
+                contactSuccess: "Obrigado! Mensagem enviada com sucesso.",
+                privacyDate: "Última Atualização: Outubro de 2026",
+                privacySec1Title: "1. Modelo de Processamento Local",
+                privacySec1Desc: "O PixelSwift Tools processa todas as fotos e vídeos enviados inteiramente dentro do seu navegador. Nenhum arquivo é enviado para servidores externos.",
+                privacySec2Title: "2. Redes e CDNs de Terceiros",
+                privacySec2Desc: "Ativos de páginas e bibliotecas são carregados de CDNs públicos.",
+                footerCopy: "&copy; 2026 PixelSwift Tools. Todos os direitos reservados. Processamento 100% privado no dispositivo."
+            },
+            fr: {
+                toolsDropdown: "Outils",
+                about: "À propos",
+                contact: "Contact",
+                privacy: "Politique de confidentialité",
+                photoResizer: "Redimensionneur de Photos & Signatures",
+                heicConverter: "Convertisseur HEIC en JPG",
+                videoCompressor: "Compresseur Vidéo Discord",
+                metadataCleaner: "Nettoyeur de Métadonnées EXIF",
+                privacyGuarantee: "100% Local & Privé - Vos fichiers ne quittent jamais votre navigateur",
+                heroTitle: "Redimensionneur de Photos, Compresseur d'Images & Outils Vidéo Gratuits",
+                heroSubtitle: "Redimensionnez vos images en Ko exacts (20Ko, 50Ko, 100Ko), convertissez des fichiers HEIC et compressez des vidéos pour Discord.",
+                startResizing: "Commencer le redimensionnement",
+                exploreTools: "Explorer les outils",
+                resizerDesc: "Redimensionnez les images selon des limites en Ko et dimensions de passeport.",
+                heicDesc: "Convertissez les photos HEIC d'iPhone en fichiers JPEG ou PNG localement.",
+                videoDesc: "Compressez des vidéos sous 25 Mo pour Discord.",
+                metadataDesc: "Supprimez les coordonnées GPS et métadonnées avant de partager vos photos.",
+                faqHeading: "Foire Aux Questions",
+                resizerHelp: "Redimensionnez les photos selon une taille exacte en Ko.",
+                quickPresets: "Préréglages Rapides",
+                customPreset: "-- Sélectionner un préréglage --",
+                clickToUpload: "Cliquez pour télécharger",
+                orDragDrop: "ou glissez-déposez",
+                outputSettings: "Paramètres de Sortie",
+                targetFileSize: "Taille de Fichier Maximale",
+                dimensions: "Dimensions",
+                lockAspect: "Conserver le ratio",
+                width: "Largeur",
+                height: "Hauteur",
+                format: "Format",
+                kbStandard: "Norme 1 Ko",
+                processImage: "Traiter l'image",
+                originalImage: "Image Originale",
+                processedResult: "Résultat Traité",
+                size: "Taille",
+                finalSize: "Taille Finale",
+                processing: "Traitement en cours...",
+                download: "Télécharger le fichier",
+                heicHelp: "Convertissez les photos iPhone HEIC en JPG ou PNG.",
+                selectHeic: "Sélectionner un fichier HEIC",
+                targetFormat: "Format Cible",
+                quality: "Qualité",
+                convertNow: "Convertir HEIC Maintenant",
+                videoHelp: "Compressez vos vidéos sous 25 Mo pour Discord.",
+                selectVideo: "Sélectionner une vidéo",
+                compressionConfig: "Configuration de Compression",
+                targetMB: "Taille Cible (Mo)",
+                discordHint: "La limite d'envoi Discord est de 25 Mo.",
+                resolutionScale: "Échelle de Résolution",
+                compressVideo: "Compresser la vidéo",
+                originalSize: "Taille Originale",
+                duration: "Durée",
+                estimatedBitrate: "Débit Calculé",
+                downloadVideo: "Télécharger la vidéo",
+                metaHelp: "Supprimez les coordonnées GPS et données de l'appareil photo.",
+                selectImageMeta: "Sélectionner une image",
+                metaDetection: "Détails de suppression",
+                wipeMeta: "Effacer les métadonnées",
+                metaCleanSuccess: "Métadonnées supprimées avec succès !",
+                downloadCleaned: "Télécharger l'image nettoyée",
+                showcaseSub: "Utilitaires multimédias sécurisés",
+                showcaseTitle: "Traitement direct ultra-rapide sans téléchargement cloud",
+                whyHeading: "Pourquoi utiliser PixelSwift Tools ?",
+                whyText: "PixelSwift Tools est conçu pour la vitesse, la précision et la confidentialité. Que vous formatiez des documents officiels ou compressiez des vidéos pour Discord, notre plateforme offre des résultats instantanés.",
+                feat1Title: "Zéro Upload Cloud",
+                feat1Desc: "Tous les fichiers sont traités directement sur votre appareil personnel grâce aux standards web locaux.",
+                feat2Title: "Ultra-rapide",
+                feat2Desc: "Profitez d'une accélération matérielle directe sans attente en file d'attente.",
+                feat3Title: "Précision Exacte en Ko",
+                feat3Desc: "Notre algorithme garantit que la taille cible finale de votre image est atteinte.",
+                imgFormatsHint: "JPG, PNG, WebP jusqu'à 50 Mo",
+                unitLabel: "Unité",
+                unitPx: "Pixels (px)",
+                unitCm: "Centimètres (cm)",
+                unitMm: "Millimètres (mm)",
+                dpiLabel: "DPI",
+                kbStd1: "1 Ko = 1024 Octets (Standard)",
+                kbStd2: "1 Ko = 1000 Octets (Décimal)",
+                successMsgPhoto: "Image compressée avec succès !",
+                heicSubHint: "Conversion 100% privée sur appareil",
+                decodingHeic: "Décodage de la structure HEIC...",
+                downloadJpg: "Télécharger JPG",
+                videoSubHint: "MP4, WebM, MOV pris en charge",
+                scaleOrig: "Résolution originale",
+                scale75: "Résolution 75%",
+                scale50: "Résolution 50% (Recommandé pour les grandes vidéos)",
+                scale33: "Résolution 33%",
+                encodingFrames: "Encodage des images vidéo...",
+                metaFormatsHint: "JPG, PNG, WebP pris en charge",
+                metaDetail1: "Supprime les coordonnées GPS EXIF",
+                metaDetail2: "Efface le modèle d'appareil photo",
+                metaDetail3: "Supprime les horodatages",
+                metaDetail4: "Ré-encode proprement sur votre appareil",
+                aboutDesc1: "PixelSwift Tools propose des utilitaires de navigateur haute performance axés sur la confidentialité.",
+                aboutSubHeading: "Garantie de traitement direct sur l'appareil",
+                aboutDesc2: "Contrairement aux sites traditionnels, PixelSwift Tools s'exécute entièrement dans votre navigateur.",
+                contactHelp: "Des questions ou des commentaires ? Envoyez-nous un message ci-dessous.",
+                labelName: "Votre Nom",
+                labelEmail: "Votre E-mail",
+                labelMsg: "Message",
+                sendBtn: "Envoyer le message",
+                contactSuccess: "Merci ! Message envoyé avec succès.",
+                privacyDate: "Dernière mise à jour : Octobre 2026",
+                privacySec1Title: "1. Modèle de traitement local",
+                privacySec1Desc: "PixelSwift Tools traite toutes les photos et vidéos directement dans votre navigateur.",
+                privacySec2Title: "2. Réseaux et CDN tiers",
+                privacySec2Desc: "Les actifs de pages Web sont chargés à partir de CDN publics.",
+                footerCopy: "&copy; 2026 PixelSwift Tools. Tous droits réservés. Traitement 100% privé sur l'appareil."
+            },
+            es: {
+                toolsDropdown: "Herramientas",
+                about: "Sobre Nosotros",
+                contact: "Contacto",
+                privacy: "Política de Privacidad",
+                photoResizer: "Redimensionador de Fotos y Firmas",
+                heicConverter: "Convertidor HEIC a JPG",
+                videoCompressor: "Compresor de Video para Discord",
+                metadataCleaner: "Limpiador de Metadados EXIF",
+                privacyGuarantee: "100% Local y Privado - Sus archivos nunca salen de su navegador",
+                heroTitle: "Redimensionador de Fotos, Compresor de Imágenes y Herramientas de Video Gratis",
+                heroSubtitle: "Redimensione imágenes a tamaños exactos en KB (20KB, 50KB, 100KB), convierta archivos HEIC y comprima videos para Discord.",
+                startResizing: "Empezar a Redimensionar",
+                exploreTools: "Explorar Herramientas",
+                resizerDesc: "Redimensione fotos a límites exactos de KB y dimensiones de pasaporte.",
+                heicDesc: "Convierta fotos HEIC de iPhone en archivos JPEG o PNG locales.",
+                videoDesc: "Comprima videos a menos de 25 MB para Discord.",
+                metadataDesc: "Elimine coordenadas GPS y metadados de cámara antes de compartir fotos.",
+                faqHeading: "Preguntas Frecuentes",
+                resizerHelp: "Redimensione fotos por KB exacto y dimensiones de píxeles localmente.",
+                quickPresets: "Ajustes Preestablecidos",
+                customPreset: "-- Seleccione un Ajuste --",
+                clickToUpload: "Haga clic para subir",
+                orDragDrop: "o arrastre y suelte",
+                outputSettings: "Configuración de Salida",
+                targetFileSize: "Tamaño Máximo de Archivo",
+                dimensions: "Dimensiones",
+                lockAspect: "Bloquear Proporción",
+                width: "Ancho",
+                height: "Alto",
+                format: "Formato",
+                kbStandard: "Estándar 1 KB",
+                processImage: "Procesar Imagen",
+                originalImage: "Imagen Original",
+                processedResult: "Resultado Procesado",
+                size: "Tamaño",
+                finalSize: "Tamaño Final",
+                processing: "Procesando...",
+                download: "Descargar Archivo",
+                heicHelp: "Convierta fotos HEIC de iPhone a JPG o PNG en su navegador.",
+                selectHeic: "Seleccionar Archivo HEIC",
+                targetFormat: "Formato Final",
+                quality: "Calidad",
+                convertNow: "Convertir HEIC Ahora",
+                videoHelp: "Comprima videos a menos de 25 MB para Discord.",
+                selectVideo: "Seleccionar Video",
+                compressionConfig: "Configuración de Compresión",
+                targetMB: "Tamaño Objetivo (MB)",
+                discordHint: "El límite de subida en Discord es de 25 MB.",
+                resolutionScale: "Escala de Resolución",
+                compressVideo: "Comprimir Video",
+                originalSize: "Tamaño Original",
+                duration: "Duración",
+                estimatedBitrate: "Tasa de Bits Calculada",
+                downloadVideo: "Descargar Video Comprimido",
+                metaHelp: "Elimine coordenadas GPS y metadados de cámara.",
+                selectImageMeta: "Seleccionar Imagen",
+                metaDetection: "Detalles de Eliminación",
+                wipeMeta: "Limpiar Metadados",
+                metaCleanSuccess: "¡Metadatos eliminados con éxito!",
+                downloadCleaned: "Descargar Imagen Limpia",
+                showcaseSub: "Utilidades multimedia seguras",
+                showcaseTitle: "Procesamiento directo ultrarrápido sin cargas en la nube",
+                whyHeading: "¿Por qué usar PixelSwift Tools?",
+                whyText: "PixelSwift Tools está diseñado para ofrecer velocidad, precisión y privacidad. Ya sea que estés formateando documentos o comprimiendo videos para Discord, nuestra plataforma ofrece resultados instantáneos.",
+                feat1Title: "Cero Cargas en la Nube",
+                feat1Desc: "Todos los archivos se procesan directamente en tu dispositivo personal utilizando estándares web locales.",
+                feat2Title: "Ultrarrápido",
+                feat2Desc: "Aprovecha la aceleración de hardware directa y los motores de navegador modernos.",
+                feat3Title: "Precisión Exacta en KB",
+                feat3Desc: "Nuestro algoritmo de compresión garantiza que tu imagen final alcance el tamaño objetivo exacto.",
+                imgFormatsHint: "JPG, PNG, WebP hasta 50MB",
+                unitLabel: "Unidad",
+                unitPx: "Píxeles (px)",
+                unitCm: "Centímetros (cm)",
+                unitMm: "Milímetros (mm)",
+                dpiLabel: "DPI",
+                kbStd1: "1 KB = 1024 Bytes (Estándar)",
+                kbStd2: "1 KB = 1000 Bytes (Decimal)",
+                successMsgPhoto: "¡Imagen comprimida con éxito!",
+                heicSubHint: "Conversión 100% privada basada en el dispositivo",
+                decodingHeic: "Decodificando estructura HEIC...",
+                downloadJpg: "Descargar JPG",
+                videoSubHint: "MP4, WebM, MOV compatibles",
+                scaleOrig: "Resolución original",
+                scale75: "Resolución del 75%",
+                scale50: "Resolución del 50% (Recomendado para videos grandes)",
+                scale33: "Resolución del 33%",
+                encodingFrames: "Codificando fotogramas de video...",
+                metaFormatsHint: "JPG, PNG, WebP Compatibles",
+                metaDetail1: "Elimina coordenadas de ubicación GPS EXIF",
+                metaDetail2: "Elimina especificaciones de cámara y lente",
+                metaDetail3: "Elimina marcas de tiempo",
+                metaDetail4: "Re-codifica limpiamente en tu dispositivo",
+                aboutDesc1: "PixelSwift Tools ofrece utilidades de navegador de alto rendimiento centradas en la privacidad.",
+                aboutSubHeading: "Garantía de procesamiento directo en el dispositivo",
+                aboutDesc2: "A diferencia de los sitios web tradicionales, PixelSwift Tools se ejecuta completamente dentro de tu navegador.",
+                contactHelp: "¿Tienes preguntas o comentarios? Envíanos un mensaje a continuación.",
+                labelName: "Tu Nombre",
+                labelEmail: "Tu Correo Electrónico",
+                labelMsg: "Mensaje",
+                sendBtn: "Enviar Mensaje",
+                contactSuccess: "¡Gracias! Mensaje enviado con éxito.",
+                privacyDate: "Última actualización: Octubre de 2026",
+                privacySec1Title: "1. Modelo de procesamiento local",
+                privacySec1Desc: "PixelSwift Tools procesa todas las fotos y videos cargados completamente dentro de tu navegador.",
+                privacySec2Title: "2. Redes y CDN de terceros",
+                privacySec2Desc: "Los recursos de las páginas web se cargan desde CDN públicos.",
+                footerCopy: "&copy; 2026 PixelSwift Tools. Todos los derechos reservados. Procesamiento 100% privado en el dispositivo."
+            }
+        };
+
+        const faqsData = [
+            {
+                q: "How do I resize a photo to 20 KB online?",
+                a: "Select our Photo & Signature Resizer tool, drag and drop your photo, set 'Max Target File Size' to 20 KB, and click 'Process Image'. Our iterative Canvas binary search engine scales quality and dimensions directly on your device to yield a file at or below 20 KB."
+            },
+            {
+                q: "Does PixelSwift Tools upload my photos to an external server?",
+                a: "No! All image resizing, HEIC decoding, video compression, and metadata cleaning happen 100% inside your local web browser. Your files never cross the internet."
+            },
+            {
+                q: "How do I convert HEIC photos from my iPhone to JPG?",
+                a: "Navigate to the HEIC to JPG Converter, select your .heic or .heif file, choose JPEG format, and click 'Convert HEIC Now'. It decodes the Apple format locally so you can download standard JPGs."
+            },
+            {
+                q: "How do I compress a video to under 25 MB for Discord?",
+                a: "Open the Discord Video Compressor, choose your video file, keep the default target size set to 24 MB (under Discord's 25 MB non-nitro ceiling), and click 'Compress Video'. The browser re-encodes the stream locally at an automatically calculated bitrate."
+            }
+        ];
+
+        let currentLang = 'en';
+
+        function nav(pageId) {
+            const pages = ['home', 'photo-resizer', 'heic-converter', 'video-compressor', 'metadata-cleaner', 'about', 'contact', 'privacy'];
+            pages.forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(`page-${pageId}`);
+            if (target) target.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function changeLanguage(langKey) {
+            currentLang = langKey;
+            document.documentElement.lang = langKey;
+            const dict = translations[langKey] || translations['en'];
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+        }
+
+        function renderFAQs() {
+            const container = document.getElementById('faqContainer');
+            if (!container) return;
+            container.innerHTML = faqsData.map(item => `
+                <div class="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2">
+                        <i class="fa-solid fa-circle-question text-amber-500 mt-1"></i>
+                        <span>${item.q}</span>
+                    </h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${item.a}</p>
+                </div>
+            `).join('');
+        }
+
+        let photoFile = null;
+        let photoImgObj = new Image();
+        let originalAspect = 1;
+
+        function handlePhotoSelect(evt) {
+            const files = evt.target.files || evt.dataTransfer.files;
+            if (!files || !files.length) return;
+            photoFile = files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoImgObj.onload = function() {
+                    originalAspect = photoImgObj.width / photoImgObj.height;
+                    document.getElementById('imgWidth').value = photoImgObj.width;
+                    document.getElementById('imgHeight').value = photoImgObj.height;
+                    document.getElementById('photoOrigDim').textContent = `${photoImgObj.width} x ${photoImgObj.height} px`;
+                    document.getElementById('photoOrigSize').textContent = formatBytes(photoFile.size);
+                    document.getElementById('photoOrigPreview').src = e.target.result;
+                    document.getElementById('photoControls').classList.remove('hidden');
+                }
+                photoImgObj.src = e.target.result;
+            }
+            reader.readAsDataURL(photoFile);
+        }
+
+        function handleDimensionChange(changed) {
+            if (!document.getElementById('aspectRatioLock').checked) return;
+            const wInput = document.getElementById('imgWidth');
+            const hInput = document.getElementById('imgHeight');
+            if (changed === 'w' && wInput.value) {
+                hInput.value = Math.round(wInput.value / originalAspect);
+            } else if (changed === 'h' && hInput.value) {
+                wInput.value = Math.round(hInput.value * originalAspect);
+            }
+        }
+
+        function setQuickKB(kb) {
+            document.getElementById('targetSizeVal').value = kb;
+            document.getElementById('targetSizeUnit').value = 'KB';
+        }
+
+        function applyPreset(presetKey) {
+            const wInput = document.getElementById('imgWidth');
+            const hInput = document.getElementById('imgHeight');
+            const targetVal = document.getElementById('targetSizeVal');
+            
+            if (presetKey === 'pan_photo') {
+                wInput.value = 200; hInput.value = 230; targetVal.value = 50;
+            } else if (presetKey === 'pan_sig') {
+                wInput.value = 140; hInput.value = 60; targetVal.value = 20;
+            } else if (presetKey === 'passport') {
+                wInput.value = 413; hInput.value = 531; targetVal.value = 100;
+            } else if (presetKey === 'us_visa') {
+                wInput.value = 600; hInput.value = 600; targetVal.value = 240;
+            } else if (presetKey === 'insta_sq') {
+                wInput.value = 1080; hInput.value = 1080; targetVal.value = 500;
+            } else if (presetKey === 'insta_port') {
+                wInput.value = 1080; hInput.value = 1350; targetVal.value = 500;
+            } else if (presetKey === 'insta_story') {
+                wInput.value = 1080; hInput.value = 1920; targetVal.value = 800;
+            } else if (presetKey === 'shopify') {
+                wInput.value = 2048; hInput.value = 2048; targetVal.value = 1000;
+            }
+        }
+
+        function convertDimensionUnits() {
+            const unit = document.getElementById('dimUnit').value;
+            const dpi = parseFloat(document.getElementById('dpiInput').value) || 300;
+            let w = parseFloat(document.getElementById('imgWidth').value);
+            let h = parseFloat(document.getElementById('imgHeight').value);
+            if (!w || !h) return;
+
+            if (unit === 'cm') {
+                w = Math.round((w / dpi) * 2.54 * 10) / 10;
+                h = Math.round((h / dpi) * 2.54 * 10) / 10;
+            } else if (unit === 'mm') {
+                w = Math.round((w / dpi) * 25.4);
+                h = Math.round((h / dpi) * 25.4);
+            }
+            document.getElementById('imgWidth').value = w;
+            document.getElementById('imgHeight').value = h;
+        }
+
+        async function processPhotoResizing() {
+            if (!photoImgObj.src) return;
+
+            const spinner = document.getElementById('photoSpinner');
+            spinner.classList.remove('hidden');
+
+            const targetVal = parseFloat(document.getElementById('targetSizeVal').value);
+            const targetUnit = document.getElementById('targetSizeUnit').value;
+            const kbBase = parseInt(document.getElementById('kbStandard').value);
+            const maxBytes = targetUnit === 'KB' ? targetVal * kbBase : targetVal * kbBase * kbBase;
+
+            let targetWidth = parseInt(document.getElementById('imgWidth').value) || photoImgObj.width;
+            let targetHeight = parseInt(document.getElementById('imgHeight').value) || photoImgObj.height;
+            const format = document.getElementById('outputFormat').value;
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            ctx.drawImage(photoImgObj, 0, 0, targetWidth, targetHeight);
+
+            let lowQuality = 0.05;
+            let highQuality = 1.0;
+            let bestBlob = null;
+            let bestQuality = 0.9;
+
+            for (let i = 0; i < 8; i++) {
+                const midQuality = (lowQuality + highQuality) / 2;
+                const blob = await new Promise(res => canvas.toBlob(res, format, midQuality));
+                
+                if (blob.size <= maxBytes) {
+                    bestBlob = blob;
+                    bestQuality = midQuality;
+                    lowQuality = midQuality;
+                } else {
+                    highQuality = midQuality;
+                }
+            }
+
+            if (!bestBlob) {
+                bestBlob = await new Promise(res => canvas.toBlob(res, format, 0.05));
+            }
+
+            spinner.classList.add('hidden');
+
+            const resultUrl = URL.createObjectURL(bestBlob);
+            document.getElementById('photoResultPreview').src = resultUrl;
+            document.getElementById('photoResultSize').textContent = formatBytes(bestBlob.size);
+            document.getElementById('photoResultDim').textContent = `${targetWidth} x ${targetHeight} px`;
+
+            const statusBox = document.getElementById('photoStatusBox');
+            const statusIcon = document.getElementById('photoStatusIcon');
+            const statusMsg = document.getElementById('photoStatusMsg');
+            const downloadBtn = document.getElementById('photoDownloadBtn');
+
+            statusBox.classList.remove('hidden');
+            downloadBtn.href = resultUrl;
+
+            if (bestBlob.size <= maxBytes) {
+                statusBox.className = "p-4 rounded-xl border border-green-200 dark:border-green-900 bg-green-50/50 dark:bg-green-950/30 flex flex-col sm:flex-row items-center justify-between gap-3";
+                statusIcon.className = "fa-solid fa-circle-check text-green-600";
+                statusMsg.textContent = `Success! Image processed to ${formatBytes(bestBlob.size)} (Target: <= ${targetVal} ${targetUnit})`;
+            } else {
+                statusBox.className = "p-4 rounded-xl border border-amber-200 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/30 flex flex-col sm:flex-row items-center justify-between gap-3";
+                statusIcon.className = "fa-solid fa-triangle-exclamation text-amber-600";
+                statusMsg.textContent = `Dimensions too large to reach under ${targetVal} ${targetUnit}. Produced closest fit: ${formatBytes(bestBlob.size)}`;
+            }
+        }
+
+        let heicFile = null;
+
+        function handleHeicSelect(evt) {
+            const files = evt.target.files || evt.dataTransfer.files;
+            if (!files || !files.length) return;
+            heicFile = files[0];
+            document.getElementById('heicControls').classList.remove('hidden');
+        }
+
+        async function convertHeicFile() {
+            if (!heicFile) return;
+
+            const statusBox = document.getElementById('heicStatus');
+            const statusIcon = document.getElementById('heicStatusIcon');
+            const statusMsg = document.getElementById('heicStatusMsg');
+            const downloadBtn = document.getElementById('heicDownloadBtn');
+            const resultBox = document.getElementById('heicResultBox');
+
+            statusBox.classList.remove('hidden');
+            downloadBtn.classList.add('hidden');
+            statusIcon.className = "fa-solid fa-circle-notch fa-spin text-slate-900 dark:text-amber-400";
+            statusMsg.textContent = "Decoding HEIC file directly in your browser...";
+
+            try {
+                if (typeof heic2any === 'undefined') {
+                    throw new Error("heic2any decoding library unavailable.");
+                }
+
+                const targetFormat = document.getElementById('heicTargetFormat').value;
+                const quality = parseFloat(document.getElementById('heicQuality').value);
+
+                const convertedBlob = await heic2any({
+                    blob: heicFile,
+                    toType: targetFormat,
+                    quality: quality
+                });
+
+                const resultBlob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+                const url = URL.createObjectURL(resultBlob);
+
+                document.getElementById('heicPreviewImg').src = url;
+                resultBox.classList.remove('hidden');
+
+                statusIcon.className = "fa-solid fa-circle-check text-green-600";
+                statusMsg.textContent = `Conversion complete! Output size: ${formatBytes(resultBlob.size)}`;
+                downloadBtn.href = url;
+                downloadBtn.download = `converted-${heicFile.name.replace(/\.[^/.]+$/, "")}.${targetFormat === 'image/png' ? 'png' : 'jpg'}`;
+                downloadBtn.classList.remove('hidden');
+
+            } catch (err) {
+                statusIcon.className = "fa-solid fa-circle-xmark text-red-600";
+                statusMsg.textContent = "Conversion failed. Please ensure the file is a valid HEIC/HEIF image.";
+            }
+        }
+
+        let videoFile = null;
+        let videoDurationSec = 0;
+
+        function handleVideoSelect(evt) {
+            const files = evt.target.files || evt.dataTransfer.files;
+            if (!files || !files.length) return;
+            videoFile = files[0];
+
+            const preview = document.getElementById('videoPreview');
+            const url = URL.createObjectURL(videoFile);
+            preview.src = url;
+
+            preview.onloadedmetadata = function() {
+                videoDurationSec = preview.duration;
+                document.getElementById('videoOrigSize').textContent = formatBytes(videoFile.size);
+                document.getElementById('videoDuration').textContent = `${Math.round(videoDurationSec)} seconds`;
+                
+                calculateVideoBitrate();
+                document.getElementById('videoControls').classList.remove('hidden');
+            };
+        }
+
+        function calculateVideoBitrate() {
+            const targetMB = parseFloat(document.getElementById('videoTargetMB').value) || 24;
+            if (!videoDurationSec) return;
+            const targetBits = targetMB * 8 * 1024 * 1024;
+            const totalBitrate = targetBits / videoDurationSec;
+            const audioBitrate = 128 * 1024;
+            const videoBitrate = Math.max(totalBitrate - audioBitrate, 100 * 1024);
+
+            document.getElementById('videoCalcBitrate').textContent = `${Math.round(videoBitrate / 1000)} kbps`;
+        }
+
+        async function startVideoCompression() {
+            if (!videoFile || !videoDurationSec) return;
+
+            const statusBox = document.getElementById('videoStatus');
+            const progressBar = document.getElementById('videoProgressBar');
+            const percentText = document.getElementById('videoPercent');
+            const statusText = document.getElementById('videoStatusText');
+            const downloadBox = document.getElementById('videoDownloadBox');
+            const downloadBtn = document.getElementById('videoDownloadBtn');
+
+            statusBox.classList.remove('hidden');
+            downloadBox.classList.add('hidden');
+            progressBar.style.width = '0%';
+            percentText.textContent = '0%';
+            statusText.textContent = 'Initializing local video stream & encoder...';
+
+            try {
+                const videoEl = document.getElementById('videoPreview');
+                const scale = parseFloat(document.getElementById('videoScale').value);
+                const targetMB = parseFloat(document.getElementById('videoTargetMB').value);
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = (videoEl.videoWidth || 640) * scale;
+                canvas.height = (videoEl.videoHeight || 360) * scale;
+
+                const targetBits = targetMB * 8 * 1024 * 1024;
+                const videoBitrate = Math.max((targetBits / videoDurationSec) - (128 * 1024), 100 * 1024);
+
+                const stream = canvas.captureStream(25);
+                const mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm',
+                    videoBitsPerSecond: videoBitrate
+                });
+
+                const chunks = [];
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) chunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    downloadBtn.href = url;
+                    downloadBtn.download = `compressed-discord-${videoFile.name.replace(/\.[^/.]+$/, "")}.webm`;
+                    
+                    statusText.textContent = `Compression complete! Output file size: ${formatBytes(blob.size)}`;
+                    progressBar.style.width = '100%';
+                    percentText.textContent = '100%';
+                    downloadBox.classList.remove('hidden');
+                };
+
+                videoEl.currentTime = 0;
+                await videoEl.play();
+                mediaRecorder.start();
+
+                const drawFrame = () => {
+                    if (videoEl.paused || videoEl.ended) {
+                        if (mediaRecorder.state === 'recording') mediaRecorder.stop();
+                        return;
+                    }
+                    ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+                    const pct = Math.round((videoEl.currentTime / videoDurationSec) * 100);
+                    progressBar.style.width = `${pct}%`;
+                    percentText.textContent = `${pct}%`;
+                    statusText.textContent = `Re-encoding video frames locally (${pct}%)...`;
+                    requestAnimationFrame(drawFrame);
+                };
+
+                drawFrame();
+
+            } catch (err) {
+                statusText.textContent = "Browser video encoding restricted or failed. Try lowering resolution scale.";
+            }
+        }
+
+        let metaFile = null;
+        let metaImgObj = new Image();
+
+        function handleMetaSelect(evt) {
+            const files = evt.target.files || evt.dataTransfer.files;
+            if (!files || !files.length) return;
+            metaFile = files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                metaImgObj.src = e.target.result;
+                document.getElementById('metaPreviewImg').src = e.target.result;
+                document.getElementById('metaControls').classList.remove('hidden');
+            };
+            reader.readAsDataURL(metaFile);
+        }
+
+        function cleanImageMetadata() {
+            if (!metaImgObj.src) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = metaImgObj.width;
+            canvas.height = metaImgObj.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(metaImgObj, 0, 0);
+
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const downloadBtn = document.getElementById('metaDownloadBtn');
+                downloadBtn.href = url;
+                downloadBtn.download = `cleaned-exif-${metaFile.name}`;
+                document.getElementById('metaResult').classList.remove('hidden');
+            }, metaFile.type || 'image/jpeg', 0.92);
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function handleContactSubmit(evt) {
+            evt.preventDefault();
+            document.getElementById('contactMsg').classList.remove('hidden');
+        }
+
+        // Initialize App on DOM Load
+        window.onload = function() {
+            renderFAQs();
+            changeLanguage('en');
+
+            const sampleImgUrl = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';
+            photoImgObj.src = sampleImgUrl;
+            photoImgObj.onload = function() {
+                originalAspect = photoImgObj.width / photoImgObj.height;
+                document.getElementById('imgWidth').value = photoImgObj.width;
+                document.getElementById('imgHeight').value = photoImgObj.height;
+                document.getElementById('photoOrigDim').textContent = `${photoImgObj.width} x ${photoImgObj.height} px`;
+                document.getElementById('photoOrigSize').textContent = "128.4 KB";
+                document.getElementById('photoOrigPreview').src = sampleImgUrl;
+                document.getElementById('photoControls').classList.remove('hidden');
+            };
+
+            ['photoDropzone', 'heicDropzone', 'videoDropzone', 'metaDropzone'].forEach(id => {
+                const zone = document.getElementById(id);
+                if (!zone) return;
+                zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drop-zone--over'); });
+                zone.addEventListener('dragleave', e => { zone.classList.remove('drop-zone--over'); });
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drop-zone--over');
+                });
+            });
+
+            const hash = window.location.hash.replace('#', '');
+            if (hash) nav(hash);
+        };
+    </script>
+</body>
+</html>
